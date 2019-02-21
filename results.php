@@ -86,7 +86,35 @@ include("functions/functions.php");
 
                     <div class="row">
                         <?php
-                            getProducts();
+                             if(isset($_GET['searchs'])){
+                                 $user_keyword = $_GET['user_query'];
+                                $get_products = "SELECT * FROM products WHERE product_keywords like '%$user_keyword%' ";
+                                $run_products = mysqli_query( $conn , $get_products );
+                                $count = mysqli_num_rows($run_products);
+                                if($count == 0){
+                                    echo "<h2 class='no-data-found'>NO PRODUCTS FOUND</h2>";
+                                } else{
+                                    while ($row_products = mysqli_fetch_array($run_products)){
+                                        $pro_id = $row_products['product_id'];
+                                        $pro_title = $row_products['product_title'];
+                                        $pro_cart = $row_products['cat_id'];
+                                        $pro_brand = $row_products['brand_id'];
+                                        $pro_desc = $row_products['product_descrip'];
+                                        $pro_price = $row_products['product_price'];
+                                        $pro_image = $row_products['product_img1'];
+                        
+                                        echo "
+                                            <div class='col-md-3 product-details'>
+                                                <h3>$pro_title</h3>
+                                                <img src='admin_area/product_images/$pro_image' width='200px' height='200px' >
+                                                <p id='price'>Price<b>: $pro_price PKR</b></p>
+                                                <a href='details.php?pro_id=$pro_id' class='details-btn'>Details</a>
+                                                <a href='index.php?add_cart=$pro_id' class='cart-btn'><button>Add to Cart</button></a>
+                                            </div> ";
+                                    }
+                                }
+                                
+                            }
                             getCatProducts();
                             getBrandProducts();   
                         ?>

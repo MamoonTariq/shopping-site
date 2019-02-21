@@ -86,7 +86,7 @@ include("functions/functions.php");
 
                     <div class="row">
                         <?php
-                            getProducts();
+                            getAllProducts();
                             getCatProducts();
                             getBrandProducts();   
                         ?>

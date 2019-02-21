@@ -102,7 +102,7 @@ include("includes/db.php");
 
                         <div class="form-group">
                             <label for="">Product Keywords</label>
-                            <input type="text" class="form-control" id="" placeholder="Enter the Key" name="product_keyword">
+                            <input type="text" class="form-control" id="" placeholder="Enter the Keywords for search" name="product_keyword">
                         </div>
                         
                         <input type="submit" class="btn btn-primary" name="add_product" value="ADD PRODUCT">
@@ -158,7 +158,7 @@ if(isset($_POST['add_product'])){
         move_uploaded_file( $tmpname2 , $destinationfile2);
         move_uploaded_file( $tmpname3 , $destinationfile3);
 
-        $sql = "INSERT into products (cat_id , brand_id , date , product_title , product_img1 , product_img2 , product_img3 , product_price , product_descrip , status) VALUES ('$cat_id' , '$brand_id' , NOW() , '$product_title' , '$filename1' , '$filename2' , '$filename3' , '$product_price' , '$product_desc' , '$product_keyword' )";
+        $sql = "INSERT into products (cat_id , brand_id , date , product_title , product_img1 , product_img2 , product_img3 , product_price , product_descrip , product_keywords , status) VALUES ('$cat_id' , '$brand_id' , NOW() , '$product_title' , '$filename1' , '$filename2' , '$filename3' , '$product_price' , '$product_desc' , '$product_keyword' , '' )";
         $run = mysqli_query( $conn, $sql );
         if($run) {
             echo "<script>alert(' DATA IS SUBMITTED SUCCESSFULLY ');</script>";

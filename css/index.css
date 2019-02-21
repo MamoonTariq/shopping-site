@@ -116,6 +116,15 @@ input[name=search]{
 	text-align: center;
 }
 
+.no-data-found{
+	margin-top: 80px;
+	text-align: center;
+	color: rebeccapurple;
+}
+
+
+
+
 
 
 
