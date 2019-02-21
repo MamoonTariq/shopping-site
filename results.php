@@ -76,10 +76,10 @@ include("functions/functions.php");
                 <div class="col-md-10 content"> <!--Start Of Content-->
                     <div class="row">
                         <div class="header">
-                            <div class="header-content">
+                            <div class="header-content"> <?php cart() ;?>
                                 <b>Welcome Guest</b>
                                 <b style="color:yellow;">Shopping Cart</b>
-                                <span> - Items : - Price</span>
+                                <span> - Tptal Items :<?php items();?> - Total Price: <?php total_price();?></span>
                             </div>
                         </div>
                     </div> <!--End of header of welcome cart-->

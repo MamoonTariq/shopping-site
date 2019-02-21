@@ -11,6 +11,21 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+
+
+    // FETCH IP ADDRESS
+function getRealIpAddr(){
+    if(!empty($_SERVER['HTTP_CLIENT_IP'])){ //check ip from share internet
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){ //to check ip is pass from proxy
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else{
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
+
+
     //FETCH THE PRODUCT BRANDS
 function getBrands(){
     global $conn;
@@ -174,6 +189,73 @@ function getProducts(){
 
 
 
+
+// FUNCTION FOR CART
+
+function cart(){
+    if(isset($_GET['add_cart'])){
+        global $conn;
+        $ip_add = getRealIpAddr();
+        $p_id = $_GET['add_cart'];
+
+        $check_pro = "SELECT * FROM cart WHERE ip_add = '$ip_add' AND p_id = '$p_id' ";
+        $run_check = mysqli_query( $conn , $check_pro );
+        if ( mysqli_num_rows($run_check) > 0 ) {
+            echo "";
+        } else {
+            $q = "INSERT INTO cart ( p_id , ip_add ) VALUES ('$p_id' , '$ip_add')";
+            $run_q = mysqli_query( $conn , $q );
+            echo "<script>window.open('index.php' , '_self')</script>";
+        }
+    }
+}
+
+
+// FETCH TOTAL NUMBERS OF ITEMS
+function items(){
+    if(isset($_GET['add_cart'])){
+        global $conn;
+        $ip_add = getRealIpAddr();
+
+        $check_pro = "SELECT * FROM cart WHERE ip_add = '$ip_add' ";
+        $run_item = mysqli_query( $conn , $check_pro );
+        $count_items = mysqli_num_rows($run_item);
+    } else {
+        global $conn;
+        $ip_add = getRealIpAddr();
+
+        $check_pro = "SELECT * FROM cart WHERE ip_add = '$ip_add' ";
+        $run_item = mysqli_query( $conn , $check_pro );
+        $count_items = mysqli_num_rows($run_item);
+    }
+    
+    echo $count_items;
+}
+
+
+
+    //FETCH THE PRICE OF TOTAL ITEMS AFTER THE CART
+function total_price(){
+    global $conn;
+    $ip_add = getRealIpAddr();
+    $total = 0;
+
+    $sel_price = "SELECT * FROM cart WHERE ip_add = '$ip_add' ";
+    $run_price = mysqli_query( $conn , $sel_price );
+    while ($record = mysqli_fetch_array($run_price)) {
+        $pro_id = $record['p_id'];
+        
+        $pro_price = "SELECT * FROM products WHERE product_id = '$pro_id'";
+        $run_pro_price = mysqli_query( $conn , $pro_price );
+        while ($p_price = mysqli_fetch_array($run_pro_price)) {
+            $product_price = array($p_price['product_price']);
+            $values = array_sum($product_price);
+            $total += $values;
+        }
+    }
+
+    echo "PKR " . $total;
+}
 
 
 ?>
