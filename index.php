@@ -1,4 +1,5 @@
 <?php
+SESSION_START();
 include("includes/db.php");
 include("functions/functions.php");
 ?>
@@ -79,7 +80,15 @@ include("functions/functions.php");
                             <div class="header-content"> <?php cart() ;?>
                                 <b>Welcome Guest</b>
                                 <b style="color:yellow;">Shopping Cart</b>
-                                <span> - Tptal Items :<?php items();?> - Total Price: <?php total_price();?></span>
+                                <span> - Total Items :<?php items();?> - Total Price: <?php total_price();?> - <a href="cart.php" class="btn btn-warning">Go to Cart</a> 
+                                <?php
+                                    if (!isset($_SESSION['customer_email'])) {
+                                      echo "<a href='checkout.php'  class='btn btn-danger' >Login</a>" ;
+                                    } else {
+                                        echo "<a href='logout.php'  class='btn btn-danger' >Logout</a>" ; 
+                                    }
+                                 ?>
+                                 </span>
                             </div>
                         </div>
                     </div> <!--End of header of welcome cart-->

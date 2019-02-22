@@ -76,7 +76,7 @@ include("functions/functions.php");
 
                 <div class="col-md-10 content"> <!--Start Of Content-->
                     <div class="row">
-                    <div class="header">
+                        <div class="header">
                             <div class="header-content"> <?php cart() ;?>
                                 <b>Welcome Guest</b>
                                 <b style="color:yellow;">Shopping Cart</b>
@@ -93,52 +93,23 @@ include("functions/functions.php");
                         </div>
                     </div> <!--End of header of welcome cart-->
 
-                    <div class="row">
-                        <?php
-                            if(isset($_GET['pro_id'])){
-                                $product_id = $_GET['pro_id'];
-                                $get_products = "SELECT * FROM products where product_id = '$product_id' ";
-                                $run_products = mysqli_query( $conn , $get_products );
-                                while ($row_products = mysqli_fetch_array($run_products)){
-                                    $pro_id = $row_products['product_id'];
-                                    $pro_title = $row_products['product_title'];
-                                    $pro_cart = $row_products['cat_id'];
-                                    $pro_brand = $row_products['brand_id'];
-                                    $pro_desc = $row_products['product_descrip'];
-                                    $pro_price = $row_products['product_price'];
-                                    $pro_image1 = $row_products['product_img1'];
-                                    $pro_image2 = $row_products['product_img2'];
-                                    $pro_image3 = $row_products['product_img3'];
-                    
-                                    echo "
-                                        <div class='col-md-8 product-details'>
-                                            <img src='admin_area/product_images/$pro_image1' style='max-width:420px' ><br>
-                                        </div>
-                                        <div class='col-md-4 product-details-single'>
-                                            <h1>$pro_title</h1>
-                                            <div class='product-desc'><h2>Description:</h2>$pro_desc</div>
-                                            <p id='price' class='btn btn-warning'>Price<b>: $pro_price PKR</b></p>
-                                            <a href='index.php?add_cart=$pro_id'><button class='btn btn-primary'>Add to Cart</button></a><br>
-                                            <a href='index.php' class='btn btn-default back-btn'>Go Back</a>
-                                            
-                                            
-                                            
-                                        </div>
-                                        ";
+                    <div class="row">   <div class="col-md-2"></div>
+                        <div class="col-md-8">
+                            <?php
+                                if (!isset($_SESSION['customer_email'])) {
+                                    include("customer/customer_login.php");
+                                } else {
+                                    include("payment_options.php");
                                 }
-                            }
-                            getCatProducts();
-                            getBrandProducts();   
-                        ?>
+                            ?>
+                        </div>
                     </div>
 
                 </div> <!--End Of Content-->
             </div>
         </div>
     </div><!--Div Containter End -->
-    <footer style="background-color:black;color:white;height:50px;">
-        This is the footer of this website
-    </footer>
+
 
 
 

@@ -76,7 +76,7 @@ include("functions/functions.php");
 
                 <div class="col-md-10 content"> <!--Start Of Content-->
                     <div class="row">
-                    <div class="header">
+                        <div class="header">
                             <div class="header-content"> <?php cart() ;?>
                                 <b>Welcome Guest</b>
                                 <b style="color:yellow;">Shopping Cart</b>
@@ -93,53 +93,98 @@ include("functions/functions.php");
                         </div>
                     </div> <!--End of header of welcome cart-->
 
-                    <div class="row">
-                        <?php
-                            if(isset($_GET['pro_id'])){
-                                $product_id = $_GET['pro_id'];
-                                $get_products = "SELECT * FROM products where product_id = '$product_id' ";
-                                $run_products = mysqli_query( $conn , $get_products );
-                                while ($row_products = mysqli_fetch_array($run_products)){
-                                    $pro_id = $row_products['product_id'];
-                                    $pro_title = $row_products['product_title'];
-                                    $pro_cart = $row_products['cat_id'];
-                                    $pro_brand = $row_products['brand_id'];
-                                    $pro_desc = $row_products['product_descrip'];
-                                    $pro_price = $row_products['product_price'];
-                                    $pro_image1 = $row_products['product_img1'];
-                                    $pro_image2 = $row_products['product_img2'];
-                                    $pro_image3 = $row_products['product_img3'];
-                    
-                                    echo "
-                                        <div class='col-md-8 product-details'>
-                                            <img src='admin_area/product_images/$pro_image1' style='max-width:420px' ><br>
-                                        </div>
-                                        <div class='col-md-4 product-details-single'>
-                                            <h1>$pro_title</h1>
-                                            <div class='product-desc'><h2>Description:</h2>$pro_desc</div>
-                                            <p id='price' class='btn btn-warning'>Price<b>: $pro_price PKR</b></p>
-                                            <a href='index.php?add_cart=$pro_id'><button class='btn btn-primary'>Add to Cart</button></a><br>
-                                            <a href='index.php' class='btn btn-default back-btn'>Go Back</a>
-                                            
-                                            
-                                            
-                                        </div>
-                                        ";
-                                }
-                            }
-                            getCatProducts();
-                            getBrandProducts();   
-                        ?>
+                    <div class="row">   <div class="col-md-2"></div>
+                        <div class="col-md-8" style="margin-top:75px;">
+                            <form action="customer_register.php" method="post" enctype="multipart/form-data">
+
+                            <div class="form-group">
+                                <label for="c_name">Name:</label>
+                                <input type="text" class="form-control" placeholder="Enter Name" name="c_name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control" placeholder="Enter password" name="c_email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="pass">Password:</label>
+                                <input type="password" class="form-control" placeholder="Enter password" name="c_pass" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="country">Country:</label>
+                                <input type="text" class="form-control" placeholder="Enter Country" name="c_country" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="city">City:</label>
+                                <input type="text" class="form-control" placeholder="Enter City" name="c_city" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact">Contact:</label>
+                                <input type="text" class="form-control" placeholder="Enter Contact" name="c_cont" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="add">Address:</label>
+                                <input type="text" class="form-control" placeholder="Enter Address" name="c_addr" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="img">Image:</label>
+                                <input type="file" class="form-control" name="c_image" required>
+                            </div>
+
+                            <input type="submit" class="btn btn-default" value="LOGIN" name="register">
+                            </form>
+                        </div>
                     </div>
 
                 </div> <!--End Of Content-->
             </div>
         </div>
     </div><!--Div Containter End -->
-    <footer style="background-color:black;color:white;height:50px;">
-        This is the footer of this website
-    </footer>
 
+<?php
+
+if (isset($_POST['register'])) {
+    $customer_name = $_POST['c_name'];
+    $customer_email = $_POST['c_email'];
+    $customer_pass = $_POST['c_pass'];
+    $customer_country = $_POST['c_country'];
+    $customer_city = $_POST['c_city'];
+    $customer_contact = $_POST['c_cont'];
+    $customer_address = $_POST['c_addr'];
+    $customer_ip = getRealIpAddr();
+    
+    $file = $_FILES['c_image'];
+    $customer_image = $_FILES['c_image']['name'];
+    $customer_image_tmp = $_FILES['c_image']['tmp_name'];
+
+    $destinationfile = 'customer/customer_photos/'.$customer_image;
+
+    $insert_customers = "INSERT INTO customers (customer_name,customer_email,customer_pass,customer_country,customer_city,customer_contact,customer_address,customer_image,customer_ip) VALUES ('$customer_name','$customer_email','$customer_pass','$customer_country','$customer_city','$customer_contact','$customer_address','$customer_image','$customer_ip')";
+
+    $run_customer = mysqli_query($conn , $insert_customers);
+    move_uploaded_file( $customer_image_tmp , $destinationfile);
+    $sel_cart = "SELECT * FROM cart where ip_add = '$customer_ip'";
+    $run_cart = mysqli_query($conn , $sel_cart);
+    $check_cart = mysqli_num_rows($run_cart);
+    if ($check_cart > 0) {
+        $_SESSION['customer_email'] = $customer_email;
+        echo "<scriptalert('ACCOUNT CREATED SUCCESSFULLY')</script>";
+        echo "<script>window.open('checkout.php' , '_self')</script>";
+    } else {
+         $_SESSION['customer_email'] = $customer_email;
+        echo "<scriptalert('ACCOUNT CREATED SUCCESSFULLY')</script>";   
+        echo "<script>window.open('index.php' , '_self')</script>";
+    }
+}
+
+
+?>
 
 
     <!--Attach Javascript Libraries-->
