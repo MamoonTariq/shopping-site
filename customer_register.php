@@ -97,47 +97,47 @@ include("functions/functions.php");
                         <div class="col-md-8" style="margin-top:75px;">
                             <form action="customer_register.php" method="post" enctype="multipart/form-data">
 
-                            <div class="form-group">
-                                <label for="c_name">Name:</label>
-                                <input type="text" class="form-control" placeholder="Enter Name" name="c_name" required>
-                            </div>
+                                <div class="form-group">
+                                    <label for="c_name">Name:</label>
+                                    <input type="text" class="form-control" placeholder="Enter Name" name="c_name" required>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="text" class="form-control" placeholder="Enter password" name="c_email" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="pass">Password:</label>
-                                <input type="password" class="form-control" placeholder="Enter password" name="c_pass" required>
-                            </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="text" class="form-control" placeholder="Enter password" name="c_email" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="pass">Password:</label>
+                                    <input type="password" class="form-control" placeholder="Enter password" name="c_pass" required>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="country">Country:</label>
-                                <input type="text" class="form-control" placeholder="Enter Country" name="c_country" required>
-                            </div>
+                                <div class="form-group">
+                                    <label for="country">Country:</label>
+                                    <input type="text" class="form-control" placeholder="Enter Country" name="c_country" required>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="city">City:</label>
-                                <input type="text" class="form-control" placeholder="Enter City" name="c_city" required>
-                            </div>
+                                <div class="form-group">
+                                    <label for="city">City:</label>
+                                    <input type="text" class="form-control" placeholder="Enter City" name="c_city" required>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="contact">Contact:</label>
-                                <input type="text" class="form-control" placeholder="Enter Contact" name="c_cont" required>
-                            </div>
+                                <div class="form-group">
+                                    <label for="contact">Contact:</label>
+                                    <input type="text" class="form-control" placeholder="Enter Contact" name="c_cont" required>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="add">Address:</label>
-                                <input type="text" class="form-control" placeholder="Enter Address" name="c_addr" required>
-                            </div>
+                                <div class="form-group">
+                                    <label for="add">Address:</label>
+                                    <input type="text" class="form-control" placeholder="Enter Address" name="c_addr" required>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="img">Image:</label>
-                                <input type="file" class="form-control" name="c_image" required>
-                            </div>
+                                <div class="form-group">
+                                    <label for="img">Image:</label>
+                                    <input type="file" class="form-control" name="c_image" required>
+                                </div>
 
-                            <input type="submit" class="btn btn-default" value="LOGIN" name="register">
+                                <input type="submit" class="btn btn-default" value="LOGIN" name="register">
                             </form>
                         </div>
                     </div>
@@ -165,7 +165,8 @@ if (isset($_POST['register'])) {
 
     $destinationfile = 'customer/customer_photos/'.$customer_image;
 
-    $insert_customers = "INSERT INTO customers (customer_name,customer_email,customer_pass,customer_country,customer_city,customer_contact,customer_address,customer_image,customer_ip) VALUES ('$customer_name','$customer_email','$customer_pass','$customer_country','$customer_city','$customer_contact','$customer_address','$customer_image','$customer_ip')";
+    $insert_customers = "INSERT INTO customers (customer_name,customer_email,customer_pass,customer_country,customer_city,customer_contact,customer_address,customer_image,customer_ip)
+                         VALUES ('$customer_name','$customer_email','$customer_pass','$customer_country','$customer_city','$customer_contact','$customer_address','$customer_image','$customer_ip')";
 
     $run_customer = mysqli_query($conn , $insert_customers);
     move_uploaded_file( $customer_image_tmp , $destinationfile);

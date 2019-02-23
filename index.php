@@ -78,7 +78,15 @@ include("functions/functions.php");
                     <div class="row">
                         <div class="header">
                             <div class="header-content"> <?php cart() ;?>
-                                <b>Welcome Guest</b>
+                                <b>
+                                <?php
+                                    if (!isset($_SESSION['customer_email'])) {
+                                      echo "Welcome Guest" ;
+                                    } else {
+                                        echo $_SESSION['customer_email']; 
+                                    }
+                                 ?>
+                                </b>
                                 <b style="color:yellow;">Shopping Cart</b>
                                 <span> - Total Items :<?php items();?> - Total Price: <?php total_price();?> - <a href="cart.php" class="btn btn-warning">Go to Cart</a> 
                                 <?php
