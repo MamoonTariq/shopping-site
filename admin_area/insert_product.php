@@ -1,14 +1,10 @@
 <?php
+SESSION_START();
 include("includes/db.php");
+    if (!isset($_SESSION['email'])) {
+        echo "<script>window.open('login.php' , '_self')</script>";
+    } else{
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Add Products</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <script src="https://cloud.tinymce.com/5/tinymce.min.js"></script>
     <script>tinymce.init({ selector:'textarea' });</script>
     <style>
@@ -112,9 +108,6 @@ include("includes/db.php");
         </div>
    </div>
 
-    <script src="../js/bootstrap.js"></script>
-</body>
-</html>
 
 <?php
 
@@ -158,10 +151,11 @@ if(isset($_POST['add_product'])){
         move_uploaded_file( $tmpname2 , $destinationfile2);
         move_uploaded_file( $tmpname3 , $destinationfile3);
 
-        $sql = "INSERT into products (cat_id , brand_id , date , product_title , product_img1 , product_img2 , product_img3 , product_price , product_descrip , product_keywords , status) VALUES ('$cat_id' , '$brand_id' , NOW() , '$product_title' , '$filename1' , '$filename2' , '$filename3' , '$product_price' , '$product_desc' , '$product_keyword' , '' )";
+        $sql = "INSERT into products (cat_id , brand_id , date , product_title , product_img1 , product_img2 , product_img3 , product_price , product_descrip , product_keywords , status) VALUES ('$cat_id' , '$brand_id' , NOW() , '$product_title' , '$filename1' , '$filename2' , '$filename3' , '$product_price' , '$product_desc' , '$product_keyword' , '$status' )";
         $run = mysqli_query( $conn, $sql );
         if($run) {
             echo "<script>alert(' DATA IS SUBMITTED SUCCESSFULLY ');</script>";
+            echo "<script>window.open('index.php?insert_product' , '_self');</script>";
         } else {
             echo "<script>alert(' DATA IS NOT SUBMITTED DUE TO SOME ERROR ');</script>";
         }
@@ -172,3 +166,4 @@ if(isset($_POST['add_product'])){
 ?>
 
 
+<?php }?>

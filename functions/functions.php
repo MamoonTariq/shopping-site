@@ -1,4 +1,5 @@
 <?php
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -258,4 +259,61 @@ function total_price(){
 }
 
 
-?>
+
+
+//Getting the defaults for Customers
+function getDefault(){
+
+    global $conn;
+    
+    
+    $c = $_SESSION['customer_email'];
+    $get_c = "SELECT * FROM customers  WHERE customer_email = '$c'";
+    $run_c = mysqli_query($conn , $get_c);
+    $row_c = mysqli_fetch_array($run_c);
+    $customer_id = $row_c['customer_id'];
+    if (!isset($_GET['my_orders'])) {
+        if (!isset($_GET['edit_account'])) {
+            if (!isset($_GET['change_pass'])) {
+                if (!isset($_GET['delete_account'])) {
+                    $get_orders = "SELECT * FROM customer_orders WHERE customer_id = '$customer_id' AND order_status = 'Pending'";
+                    $run_orders = mysqli_query($conn , $get_orders);
+                    $count_orders = mysqli_num_rows($run_orders);
+
+                    if ($count_orders>0) {
+                        echo "<div>
+                        <h2 style='background-color:#00c6ff;'>You have ($count_orders) Pending Orders</h2>
+                        <h3>Please see your orders details by clicking this <a href='my_account.php?my_orders' class='btn btn-danger'>LINK</a>
+                        <br>
+                        <a href='pay_offline.php' class='btn btn-danger'>Pay Offline</a>
+                        </h3>
+                        </div>
+                        ";
+                    } else {
+                        echo "<div>
+                        <h2>You have NO Pending Orders</h2>
+                        <h3>Please see your orders details by clicking this <a href='my_account.php?my_orders'>LINK</a>
+                        <br>
+                        </h3>
+                        </div>
+                        ";
+                    }
+                }
+            }
+        }
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+    

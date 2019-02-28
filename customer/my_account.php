@@ -1,7 +1,7 @@
 <?php
 SESSION_START();
 include("includes/db.php");
-include("functions/functions.php");
+include("../functions/functions.php");
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +13,6 @@ include("functions/functions.php");
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/index.css" media="all" />
-    <script src="js/jquery.js"></script>
 </head>
 <body>
    
@@ -30,12 +29,12 @@ include("functions/functions.php");
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="all_products.php">All Products</a></li>
-                    <li><a href="customer/my_account.php">My Account</a></li>  
-                    <li><a href="user_register.php">Sign Up</a></li>
-                    <li><a href="cart.php">Shopping Cart</a></li>
-                    <li><a href="contact.php">Contact Us</a></li>  
+                    <li><a href="../index.php">Home</a></li>
+                    <li><a href="../all_products.php">All Products</a></li>
+                    <li><a href="my_account.php">My Account</a></li>  
+                    <li><a href="../user_register.php">Sign Up</a></li>
+                    <li><a href="../cart.php">Shopping Cart</a></li>
+                    <li><a href="../contact.php">Contact Us</a></li>  
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li id="nav-search">
@@ -54,27 +53,8 @@ include("functions/functions.php");
             <!-- Start a content part -->
         <div class="wrapper">
             <div class="row">
-                <div class="col-md-2 categories"> <!--Start Of Left Side Bar Content-->
-                    <h1 id="category-title">Categories</h1>
-                    <div class="list-group"> <!-- Start a Categories -->
-                        <ul>
-                            <?php
-                                getCats();  
-                            ?>
-                        </ul>
-                    </div> <!-- End a Categories -->
-                    <h1 id="category-title">BRANDS</h1>
-                    <div class="list-group"> <!-- Start a Brands -->
-                        <ul>
-                            <?php
-                                getBrands();    
-                            ?>
-                        </ul>
-                    </div> <!-- End a Brands -->
-                </div> <!--End Of Left Side Bar of Content-->
 
-
-                <div class="col-md-10 content"> <!--Start Of Content-->
+            <div class="col-md-10 content"> <!--Start Of Content-->
                     <div class="row">
                         <div class="header">
                             <div class="header-content"> <?php cart() ;?>
@@ -83,17 +63,16 @@ include("functions/functions.php");
                                     if (!isset($_SESSION['customer_email'])) {
                                       echo "Welcome Guest" ;
                                     } else {
-                                        echo $_SESSION['customer_email']; 
+                                        echo "<span style='color:red;'>Welcome</span>   ". $_SESSION['customer_email']; 
                                     }
                                  ?>
                                 </b>
-                                <b style="color:yellow;">Shopping Cart</b>
-                                <span> - Total Items :<?php items();?> - Total Price: <?php total_price();?> - <a href="cart.php" class="btn btn-warning">Go to Cart</a> 
+                               
                                 <?php
                                     if (!isset($_SESSION['customer_email'])) {
-                                      echo "<a href='checkout.php'  class='btn btn-danger' >Login</a>" ;
+                                      echo "<a href='../checkout.php'  class='btn btn-danger' >Login</a>" ;
                                     } else {
-                                        echo "<a href='logout.php'  class='btn btn-danger' >Logout</a>" ; 
+                                        echo "<a href='../logout.php'  class='btn btn-danger' >Logout</a>" ; 
                                     }
                                  ?>
                                  </span>
@@ -102,14 +81,38 @@ include("functions/functions.php");
                     </div> <!--End of header of welcome cart-->
 
                     <div class="row">
-                        <?php
-                            getProducts();
-                            getCatProducts();
-                            getBrandProducts();   
-                        ?>
-                    </div>
+                       <div class="wrapper order-list">
+                          <h1 style="text-align:center; color:white">Manage Your Account Here</h1>
+                            <?php
+                            getDefault();
+                            ?>
 
+                            <?php
+                                if (isset($_GET['my_orders'])) {
+                                    include("my_orders.php");
+                                }
+                            ?>
+                       </div>
+                    </div>
                 </div> <!--End Of Content-->
+
+                <div class="col-md-2 categories"> <!--Start Of Left Side Bar Content-->
+                    <h3 id="category-title">Manage Account</h3>
+                    <div class="list-group"> <!-- Start a Categories -->
+                        <ul>
+                            <li><a href='my_account.php?my_orders' class='list-group-item'>My Orders</a></li>
+                            <li><a href='edit.php' class='list-group-item'>Edit Account</a></li>
+                            <li><a href='index.php' class='list-group-item'>Change Password</a></li>
+                            <li><a href='index.php' class='list-group-item'>Delete Account</a></li>
+                            <li><a href='../logiut.php' class='list-group-item'>Logout</a></li>
+                            
+                        </ul>
+                    </div> <!-- End a Categories -->
+                   
+                </div> <!--End Of Left Side Bar of Content-->
+
+
+                
             </div>
         </div>
     </div><!--Div Containter End -->
